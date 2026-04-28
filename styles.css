@@ -1,0 +1,22 @@
+:root{--bg:#0f1720;--card:#162029;--accent1:#1ed6ff;--accent2:#8a40ff}
+*{box-sizing:border-box;font-family:Inter,Segoe UI,Arial,Helvetica,sans-serif}
+body{margin:0;background:linear-gradient(180deg,#07101a,#0f1720);color:#dfe8ef}
+.container{max-width:900px;margin:24px auto;padding:20px}
+.hero{display:flex;align-items:center;gap:20px}
+.logo{width:96px;height:96px;border-radius:18px;object-fit:cover;box-shadow:0 6px 20px rgba(30,214,255,.12)}
+h1{margin:0;font-size:28px}
+.desc{color:#9fb0bd}
+.screenshots{margin-top:18px}
+.shots{display:flex;gap:12px}
+.shots img{width:30%;border-radius:12px;box-shadow:0 8px 30px rgba(0,0,0,.6);border:2px solid rgba(255,255,255,.02)}
+.download{margin-top:18px}
+.download-cards{display:flex;gap:14px;flex-wrap:wrap}
+.card{background:rgba(255,255,255,.02);padding:14px;border-radius:12px;flex:1;min-width:220px}
+.small{color:#a9c2ca;margin:6px 0}
+.ios-instr{color:#9fb0bd;font-size:13px;margin-top:8px}
+.note{color:#8fb7be;font-size:13px;margin-top:8px}
+.btn{display:inline-block;padding:10px 16px;background:linear-gradient(90deg,var(--accent1),var(--accent2));color:#012;border-radius:12px;text-decoration:none;font-weight:700}
+.btn.disabled{opacity:.5;pointer-events:none}
+.instructions{margin-top:18px;background:rgba(255,255,255,.02);padding:12px;border-radius:10px;color:#c8d6dc}
+.foot{margin-top:28px;color:#60747d;text-align:center}
+@media(max-width:640px){.shots img{width:48%}}

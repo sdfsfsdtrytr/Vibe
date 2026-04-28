@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Скачать приложение — Vibe</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="container">
+    <header class="hero">
+      <img src="logo.png" alt="Vibe logo" class="logo">
+      <div>
+        <h1>Скачать Vibe</h1>
+        <p class="desc">Мультиплатформенное приложение — выбирайте вашу платформу.</p>
+      </div>
+    </header>
+
+    <section class="download">
+      <h2>Скачать</h2>
+      <div class="download-cards">
+        <div class="card card-android hidden">
+          <h3>Android</h3>
+          <p class="small">Нажмите, чтобы скачать APK прямо на Android.</p>
+          <a id="androidBtn" class="btn" href="#" download="Vibe.apk">Скачать Vibe</a>
+          <p class="note" id="androidNote"></p>
+        </div>
+
+        <div class="card card-ios hidden">
+          <h3>iPhone</h3>
+          <p class="small">Откроется страница установки / PWA.</p>
+          <a id="iosBtn" class="btn" href="https://sdfsfsdtrytr.github.io/vibe-chat/" target="_blank" rel="noopener">Перейти</a>
+          <p class="ios-instr">Если вы не в Safari — скопируйте ссылку. В Safari нажмите «Поделиться» → «Добавить на экран "Домой"» → «Добавить».</p>
+        </div>
+
+        <div class="card card-desktop hidden">
+          <h3>ПК</h3>
+          <p class="small">Скачать установщик или архив для ПК (если доступно).</p>
+          <a id="desktopBtn" class="btn" href="#">Скачать для ПК</a>
+          <p class="note" id="desktopNote"></p>
+        </div>
+      </div>
+    </section>
+
+    <section class="screenshots">
+      <h2>Скриншоты</h2>
+      <div class="shots">
+        <img src="shot1.png" alt="Скриншот 1">
+        <img src="shot2.png" alt="Скриншот 2">
+        <img src="shot3.png" alt="Скриншот 3">
+      </div>
+    </section>
+
+    <section class="instructions">
+      <h2>Инструкция</h2>
+      <p>Чтобы кнопка скачивала файл, положите <strong>Vibe.apk</strong> (Android) и/или файл для ПК рядом с `index.html` или загрузите их на публичный хостинг и укажите прямые ссылки.</p>
+      <p>Я переименовал APK в <strong>Vibe.apk</strong> в этой папке — кнопка Android будет скачивать именно этот файл.</p>
+    </section>
+
+    <footer class="foot">&copy; Vibe — Мессенджер</footer>
+  </main>
+
+  <script>
+    // Показывать только соответствующий устройству блок
+    const isAndroid = /Android/i.test(navigator.userAgent);
+    const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
+    const androidCard = document.querySelector('.card-android');
+    const iosCard = document.querySelector('.card-ios');
+    const desktopCard = document.querySelector('.card-desktop');
+    const androidBtn = document.getElementById('androidBtn');
+    const desktopBtn = document.getElementById('desktopBtn');
+    const androidNote = document.getElementById('androidNote');
+    const desktopNote = document.getElementById('desktopNote');
+
+    function showOnly(card) {
+      [androidCard, iosCard, desktopCard].forEach(c => c.classList.add('hidden'));
+      if (card) card.classList.remove('hidden');
+    }
+
+    if (isAndroid) {
+      // Показываем андроид-блок и автоматически запускаем скачивание, если Vibe.apk доступен
+      showOnly(androidCard);
+      fetch('Vibe.apk', { method: 'HEAD' }).then(res => {
+        if (res.ok) {
+          androidBtn.href = 'Vibe.apk';
+          androidNote.textContent = 'Скачивание начнётся автоматически...';
+          // Небольшая задержка чтобы страница успела отобразиться
+          setTimeout(()=>{
+            window.location.href = 'Vibe.apk';
+          }, 700);
+        } else {
+          androidNote.textContent = 'Файл Vibe.apk не найден в папке.';
+          androidBtn.classList.add('disabled');
+        }
+      }).catch(()=>{
+        androidNote.textContent = 'Файл Vibe.apk не найден в папке.';
+        androidBtn.classList.add('disabled');
+      });
+    } else if (isIOS) {
+      // На iPhone сразу перенаправляем на PWA/страницу (можно отменить)
+      showOnly(iosCard);
+      const iosUrl = document.getElementById('iosBtn').href;
+      // Показываем заметку и перенаправляем через небольшую задержку
+      document.querySelector('.ios-instr').textContent = 'Открывается страница установки... Если вы в Safari — используйте "Добавить на экран Домой".';
+      setTimeout(()=>{ window.location.href = iosUrl; }, 700);
+    } else {
+      // Для ПК: если есть файл — начинаем скачивание, иначе показываем карточку с кнопкой
+      Promise.any([
+        fetch('installer.exe', { method: 'HEAD' }),
+        fetch('app-desktop.zip', { method: 'HEAD' }),
+        fetch('desktop.zip', { method: 'HEAD' })
+      ]).then(res => {
+        if (res && res.ok) {
+          // Выберем приоритетный файл
+          if (res.url && res.url.endsWith('installer.exe')) {
+            window.location.href = 'installer.exe';
+          } else if (res.url && res.url.endsWith('app-desktop.zip')) {
+            window.location.href = 'app-desktop.zip';
+          } else {
+            window.location.href = 'desktop.zip';
+          }
+        } else {
+          showOnly(desktopCard);
+          desktopNote.textContent = 'Файл для ПК не найден в папке.';
+          desktopBtn.classList.add('disabled');
+        }
+      }).catch(()=>{
+        // Нет файлов — показываем карточку с инструкцией
+        showOnly(desktopCard);
+        desktopNote.textContent = 'Файл для ПК не найден в папке.';
+        desktopBtn.classList.add('disabled');
+      });
+    }
+  </script>
+</body>
+</html>
