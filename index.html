@@ -21,22 +21,22 @@
       <div class="download-cards">
         <div class="card card-android hidden">
           <h3>Android</h3>
-          <p class="small">Нажмите, чтобы скачать APK прямо на Android.</p>
+          <p class="small">Нажмите, чтобы скачать Vibe прямо на Android.</p>
           <a id="androidBtn" class="btn" href="#" download="Vibe.apk">Скачать Vibe</a>
           <p class="note" id="androidNote"></p>
         </div>
 
         <div class="card card-ios hidden">
           <h3>iPhone</h3>
-          <p class="small">Откроется страница установки / PWA.</p>
+          <p class="small">Откройте страницу установки.</p>
           <a id="iosBtn" class="btn" href="https://sdfsfsdtrytr.github.io/vibe-chat/" target="_blank" rel="noopener">Перейти</a>
           <p class="ios-instr">Если вы не в Safari — скопируйте ссылку. В Safari нажмите «Поделиться» → «Добавить на экран "Домой"» → «Добавить».</p>
         </div>
 
         <div class="card card-desktop hidden">
           <h3>ПК</h3>
-          <p class="small">Скачать установщик или архив для ПК (если доступно).</p>
-          <a id="desktopBtn" class="btn" href="#">Скачать для ПК</a>
+          <p class="small">Веб версия.</p>
+          <a id="iosBtn" class="btn" href="https://sdfsfsdtrytr.github.io/vibe-chat/" target="_blank" rel="noopener">Перейти</a>
           <p class="note" id="desktopNote"></p>
         </div>
       </div>
@@ -121,13 +121,13 @@
           }
         } else {
           showOnly(desktopCard);
-          desktopNote.textContent = 'Файл для ПК не найден в папке.';
+          desktopNote.textContent = '';
           desktopBtn.classList.add('disabled');
         }
       }).catch(()=>{
         // Нет файлов — показываем карточку с инструкцией
         showOnly(desktopCard);
-        desktopNote.textContent = 'Файл для ПК не найден в папке.';
+        desktopNote.textContent = 'Также вы можете установить на рабочий стол через браузер, нажав "Перейти".';
         desktopBtn.classList.add('disabled');
       });
     }
